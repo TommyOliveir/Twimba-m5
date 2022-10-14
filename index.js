@@ -1,6 +1,10 @@
 import { tweetsData } from './data.js'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
+
+
+
+
 // Event listeners
 document.addEventListener('click', function (e) {
     if (e.target.dataset.like) {
@@ -73,15 +77,21 @@ function handleTweetBtnClick() {
         render()
         tweetInput.value = ''
     }
+     localStorage.setItem("tweeted", JSON.stringify(tweetsData))
+    
 
+  
+   
 }
 
 
 // getFeedHtml
 function getFeedHtml() {
+//local
+const currentTweetData = JSON.parse(localStorage.getItem("tweeted"))
     let feedHtml = ``
 
-    tweetsData.forEach(function (tweet) {
+    currentTweetData.forEach(function (tweet) {
 
         let likeIconClass = ''
 
@@ -150,11 +160,14 @@ function getFeedHtml() {
                   `
     })
     return feedHtml
+
 }
 
 // render
 function render() {
+   
     document.getElementById('feed').innerHTML = getFeedHtml()
+  
 }
 
 render()
