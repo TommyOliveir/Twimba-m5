@@ -33,9 +33,7 @@ document.addEventListener('click', function (e) {
     else if (e.target.dataset.delete) {
         handleDeleteClick(e.target.dataset.delete)
     }
-    else if (e.target.dataset.inputReply) {
-        console.log(e.target.dataset.inputReply)
-    }
+ 
 
 })
 
@@ -135,8 +133,18 @@ function getFeedHtml() {
             retweetIconClass = 'retweeted'
         }
 
-        let repliesHtml = ``
+        let repliesHtml = `
+                        <div class="tweet-reply"> 
+                        <img src="images/spiderman.jpg" class="profile-pic tweet-inner" >
 
+                            <textarea style="overflow:hidden" id="inputReply" name="inputReply" data-inputReply="${tweet.uuid}">
+
+                            </textarea>
+                      
+                        </div>
+                       
+                         `
+                       
 
 
 
