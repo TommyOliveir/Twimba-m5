@@ -1,158 +1,141 @@
-import { tweetsData } from './data.js'
-import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
+import { tweetsData } from "./data.js";
+import { v4 as uuidv4 } from "https://jspm.dev/uuid";
 
-let currenttweetsData = tweetsData
+let currenttweetsData = tweetsData;
 
 // localStorage.clear()
 // localStorage.setItem('tweeted', JSON.stringify(tweetsData));
 // const tweetsData2 = JSON.parse(localStorage.getItem("tweeted"))
 
-const fromLocalStoragetweetsData = JSON.parse(localStorage.getItem("tweeted"))
-console.log(fromLocalStoragetweetsData)
-
+const fromLocalStoragetweetsData = JSON.parse(localStorage.getItem("tweeted"));
+console.log(fromLocalStoragetweetsData);
 
 if (fromLocalStoragetweetsData) {
-    currenttweetsData = fromLocalStoragetweetsData
-    render()
+  currenttweetsData = fromLocalStoragetweetsData;
+  render();
 }
 
 // Event listeners
-document.addEventListener('click', function (e) {
-    if (e.target.dataset.like) {
-        handleLikeClick(e.target.dataset.like)
-    }
-    else if (e.target.dataset.retweet) {
-        handleRetweetClick(e.target.dataset.retweet)
-    }
-    else if (e.target.dataset.reply) {
-        handleReplyClick(e.target.dataset.reply)
-    }
-    else if (e.target.id === 'tweet-btn') {
-        handleTweetBtnClick()
-    }
-    else if (e.target.dataset.delete) {
-        handleDeleteClick(e.target.dataset.delete)
-    }
- 
-
-})
-
-
-
-
+document.addEventListener("click", function (e) {
+  if (e.target.dataset.like) {
+    handleLikeClick(e.target.dataset.like);
+  } else if (e.target.dataset.retweet) {
+    handleRetweetClick(e.target.dataset.retweet);
+  } else if (e.target.dataset.reply) {
+    handleReplyClick(e.target.dataset.reply);
+  } else if (e.target.id === "tweet-btn") {
+    handleTweetBtnClick();
+  } else if (e.target.dataset.delete) {
+    handleDeleteClick(e.target.dataset.delete);
+  } else if (e.target.dataset.inputReply) {
+    handleInputReplyClick(e.target.dataset.inputReply);
+  }
+});
 
 // HandleClicks
 function handleLikeClick(tweetId) {
-    const targetTweetObj = currenttweetsData.filter(function (tweet) {
-        return tweet.uuid === tweetId
-    })[0]
+  const targetTweetObj = currenttweetsData.filter(function (tweet) {
+    return tweet.uuid === tweetId;
+  })[0];
 
-    if (targetTweetObj.isLiked) {
-        targetTweetObj.likes--
-    }
-    else {
-        targetTweetObj.likes++
-    }
-    targetTweetObj.isLiked = !targetTweetObj.isLiked
-    render()
+  if (targetTweetObj.isLiked) {
+    targetTweetObj.likes--;
+  } else {
+    targetTweetObj.likes++;
+  }
+  targetTweetObj.isLiked = !targetTweetObj.isLiked;
+  render();
+  console.log("like");
 }
 
 function handleRetweetClick(tweetId) {
-    const targetTweetObj = currenttweetsData.filter(function (tweet) {
-        return tweet.uuid === tweetId
-    })[0]
+  const targetTweetObj = currenttweetsData.filter(function (tweet) {
+    return tweet.uuid === tweetId;
+  })[0];
 
-    if (targetTweetObj.isRetweeted) {
-        targetTweetObj.retweets--
-    }
-    else {
-        targetTweetObj.retweets++
-    }
-    targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted
-    render()
+  if (targetTweetObj.isRetweeted) {
+    targetTweetObj.retweets--;
+  } else {
+    targetTweetObj.retweets++;
+  }
+  targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted;
+  render();
 }
 
 function handleReplyClick(replyId) {
-    document.getElementById(`replies-${replyId}`).classList.toggle('hidden')
+  document.getElementById(`replies-${replyId}`).classList.toggle("hidden");
 }
 
-
-
 function handleTweetBtnClick() {
-    const tweetInput = document.getElementById('tweet-input')
+  const tweetInput = document.getElementById("tweet-input");
 
-    if (tweetInput.value) {
-        currenttweetsData.unshift({
-            handle: `@TommyA.K.A.Spiderman`,
-            profilePic: `images/spiderman.jpg`,
-            likes: 0,
-            retweets: 0,
-            tweetText: tweetInput.value,
-            replies: [],
-            isLiked: false,
-            isRetweeted: false,
-            uuid: uuidv4()
-        })
-        //save local here
-        localStorage.setItem('tweeted', JSON.stringify(currenttweetsData));
-        render()
-        tweetInput.value = ''
-    }
-
+  if (tweetInput.value) {
+    currenttweetsData.unshift({
+      handle: `@TommyA.K.A.Spiderman`,
+      profilePic: `images/spiderman.jpg`,
+      likes: 0,
+      retweets: 0,
+      tweetText: tweetInput.value,
+      replies: [],
+      isLiked: false,
+      isRetweeted: false,
+      uuid: uuidv4(),
+    });
+    //save local here
+    localStorage.setItem("tweeted", JSON.stringify(currenttweetsData));
+    render();
+    tweetInput.value = "";
+  }
 }
 
 function handleDeleteClick(deleteID) {
+  const resultNotdeleted = currenttweetsData.filter(function (del) {
+    return del.uuid !== deleteID;
+  });
+  console.log(resultNotdeleted);
+  currenttweetsData = resultNotdeleted;
+  localStorage.setItem("tweeted", JSON.stringify(currenttweetsData));
+  render();
+}
 
-    const resultNotdeleted = currenttweetsData.filter(function (del) {
-        return del.uuid !== deleteID
-
-    })
-    console.log(resultNotdeleted)
-    currenttweetsData = resultNotdeleted
-    localStorage.setItem('tweeted', JSON.stringify(currenttweetsData));
-    render()
+function handleInputReplyClick(inputReplyID) {
+  console.log("reply");
 }
 
 // getFeedHtml
 function getFeedHtml() {
-    //local
+  //local
 
-    let feedHtml = ``
+  let feedHtml = ``;
 
-    currenttweetsData.forEach(function (tweet) {
+  currenttweetsData.forEach(function (tweet) {
+    let likeIconClass = "";
 
-        let likeIconClass = ''
+    if (tweet.isLiked) {
+      likeIconClass = "liked";
+    }
 
-        if (tweet.isLiked) {
-            likeIconClass = 'liked'
-        }
+    let retweetIconClass = "";
 
-        let retweetIconClass = ''
+    if (tweet.isRetweeted) {
+      retweetIconClass = "retweeted";
+    }
 
-        if (tweet.isRetweeted) {
-            retweetIconClass = 'retweeted'
-        }
-
-        let repliesHtml = `
+    let repliesHtml = `
                         <div class="tweet-reply"> 
-                        <img src="images/spiderman.jpg" class="profile-pic tweet-inner" >
+                        <img src="images/spiderman.jpg" class="profile-pic tweet-inner"  >
 
-                            <textarea style="overflow:hidden" id="inputReply" name="inputReply" data-inputReply="${tweet.uuid}">
+                            <textarea style="overflow:hidden" id="inputReply" name="inputReply" data-inputReply="${tweet.uuid}" >
 
                             </textarea>
                       
                         </div>
                        
-                         `
-                       
+                         `;
 
-
-
-        if (tweet.replies.length > 0) {
-            tweet.replies.forEach(function (reply) {
-               
-
-                repliesHtml += `
+    if (tweet.replies.length > 0) {
+      tweet.replies.forEach(function (reply) {
+        repliesHtml += `
                                 <div class="tweet-reply">
                                     <div class="tweet-inner">
                                         <img src="${reply.profilePic}" class="profile-pic">
@@ -165,12 +148,11 @@ function getFeedHtml() {
                                     
                                 </div>
                                 
-                                `
-            })
-        }
+                                `;
+      });
+    }
 
-
-        feedHtml += `
+    feedHtml += `
                     <div class="tweet">
                         <div class="tweet-inner">
                             <img src="${tweet.profilePic}" class="profile-pic">
@@ -209,22 +191,15 @@ function getFeedHtml() {
                             ${repliesHtml}
                         </div>   
                     </div>
-                  `
-    })
-    //
+                  `;
+  });
 
-    return feedHtml
-
+  return feedHtml;
 }
-
-
 
 // render
 function render() {
-
-    document.getElementById('feed').innerHTML = getFeedHtml()
-
+  document.getElementById("feed").innerHTML = getFeedHtml();
 }
 
-render()
-
+render();
