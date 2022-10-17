@@ -113,6 +113,10 @@ button {
     width: 80%;
 }
 
+.tweetReplyInput img {
+ margin-top: 2em;
+}
+
 .handle {
     font-size: 12px;
     font-weight: 500;

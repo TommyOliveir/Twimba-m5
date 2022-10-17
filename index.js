@@ -1,9 +1,20 @@
 import { tweetsData } from './data.js'
 import { v4 as uuidv4 } from 'https://jspm.dev/uuid';
 
+let currenttweetsData = tweetsData
+
+// localStorage.clear()
+// localStorage.setItem('tweeted', JSON.stringify(tweetsData));
+// const tweetsData2 = JSON.parse(localStorage.getItem("tweeted"))
+
+const fromLocalStoragetweetsData = JSON.parse(localStorage.getItem("tweeted"))
+console.log(fromLocalStoragetweetsData)
 
 
-
+if (fromLocalStoragetweetsData) {
+    currenttweetsData = fromLocalStoragetweetsData
+    render()
+}
 
 // Event listeners
 document.addEventListener('click', function (e) {
@@ -19,12 +30,22 @@ document.addEventListener('click', function (e) {
     else if (e.target.id === 'tweet-btn') {
         handleTweetBtnClick()
     }
+    else if (e.target.dataset.delete) {
+        handleDeleteClick(e.target.dataset.delete)
+    }
+    else if (e.target.dataset.inputReply) {
+        console.log(e.target.dataset.inputReply)
+    }
+
 })
+
+
+
 
 
 // HandleClicks
 function handleLikeClick(tweetId) {
-    const targetTweetObj = tweetsData.filter(function (tweet) {
+    const targetTweetObj = currenttweetsData.filter(function (tweet) {
         return tweet.uuid === tweetId
     })[0]
 
@@ -39,7 +60,7 @@ function handleLikeClick(tweetId) {
 }
 
 function handleRetweetClick(tweetId) {
-    const targetTweetObj = tweetsData.filter(function (tweet) {
+    const targetTweetObj = currenttweetsData.filter(function (tweet) {
         return tweet.uuid === tweetId
     })[0]
 
@@ -63,9 +84,9 @@ function handleTweetBtnClick() {
     const tweetInput = document.getElementById('tweet-input')
 
     if (tweetInput.value) {
-        tweetsData.unshift({
-            handle: `@Scrimba`,
-            profilePic: `images/scrimbalogo.png`,
+        currenttweetsData.unshift({
+            handle: `@TommyA.K.A.Spiderman`,
+            profilePic: `images/spiderman.jpg`,
             likes: 0,
             retweets: 0,
             tweetText: tweetInput.value,
@@ -74,24 +95,33 @@ function handleTweetBtnClick() {
             isRetweeted: false,
             uuid: uuidv4()
         })
+        //save local here
+        localStorage.setItem('tweeted', JSON.stringify(currenttweetsData));
         render()
         tweetInput.value = ''
     }
-     localStorage.setItem("tweeted", JSON.stringify(tweetsData))
-    
 
-  
-   
 }
 
+function handleDeleteClick(deleteID) {
+
+    const resultNotdeleted = currenttweetsData.filter(function (del) {
+        return del.uuid !== deleteID
+
+    })
+    console.log(resultNotdeleted)
+    currenttweetsData = resultNotdeleted
+    localStorage.setItem('tweeted', JSON.stringify(currenttweetsData));
+    render()
+}
 
 // getFeedHtml
 function getFeedHtml() {
-//local
-const currentTweetData = JSON.parse(localStorage.getItem("tweeted"))
+    //local
+
     let feedHtml = ``
 
-    currentTweetData.forEach(function (tweet) {
+    currenttweetsData.forEach(function (tweet) {
 
         let likeIconClass = ''
 
@@ -105,10 +135,15 @@ const currentTweetData = JSON.parse(localStorage.getItem("tweeted"))
             retweetIconClass = 'retweeted'
         }
 
-        let repliesHtml = ''
+        let repliesHtml = ``
+
+
+
 
         if (tweet.replies.length > 0) {
             tweet.replies.forEach(function (reply) {
+               
+
                 repliesHtml += `
                                 <div class="tweet-reply">
                                     <div class="tweet-inner">
@@ -116,9 +151,12 @@ const currentTweetData = JSON.parse(localStorage.getItem("tweeted"))
                                             <div>
                                                 <p class="handle">${reply.handle}</p>
                                                 <p class="tweet-text">${reply.tweetText}</p>
+                                                
                                             </div>
                                         </div>
+                                    
                                 </div>
+                                
                                 `
             })
         }
@@ -150,6 +188,12 @@ const currentTweetData = JSON.parse(localStorage.getItem("tweeted"))
                                         ></i>
                                         ${tweet.retweets}
                                     </span>
+                                    
+                                    <span class="tweet-detail">
+                                        <i class="fa-solid fa-trash"
+                                        data-delete="${tweet.uuid}"></i>                                    
+                                    </span>
+
                                 </div>   
                             </div>            
                         </div>
@@ -159,15 +203,19 @@ const currentTweetData = JSON.parse(localStorage.getItem("tweeted"))
                     </div>
                   `
     })
+    //
+
     return feedHtml
 
 }
 
+
+
 // render
 function render() {
-   
+
     document.getElementById('feed').innerHTML = getFeedHtml()
-  
+
 }
 
 render()
