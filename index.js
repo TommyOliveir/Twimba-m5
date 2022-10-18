@@ -221,7 +221,8 @@ function getFeedHtml() {
                                     
                                     <span class="tweet-detail">
                                         <i class="fa-solid fa-trash"
-                                        data-delete="${tweet.uuid}"></i>                                    
+                                        data-delete="${tweet.uuid}"></i>   
+                                                          
                                     </span>
 
                                 </div>   
@@ -235,9 +236,9 @@ function getFeedHtml() {
                               <textarea placeholder="Add Comment" style="overflow:hidden" id="inputReply-ID-${tweet.uuid}" name="inputReply" data-inputreply="${tweet.uuid}"></textarea> 
                             </div>
                             <div>  
-                              <button class="reply-btn" data-replysubmit="${tweet.uuid}">reply</button>  
+                              <button class="reply-btn" data-replysubmit="${tweet.uuid}">reply<i class="fa-regular fa-paper-plane"></i> </button>  
                             </div>
-                                    
+                          
                           </div>
 
                             ${repliesHtml}

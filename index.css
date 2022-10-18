@@ -77,6 +77,7 @@ button {
     font-size: 20px;
     font-weight: 600;
     transition: all .2s ease;
+    font-weight: 300;
 }
 
 /* tweet */
@@ -158,15 +159,14 @@ button {
 }
 
 
-.tweet-reply button {
-   
-    width: 100%;
-}
 
 .reply-btn:active {
     transform: scale(1.1);
 }
 .reply-btn {
    transition: all .2s ease;
+   font-weight: 300;
+   width: 50%;
+   
 }
 
