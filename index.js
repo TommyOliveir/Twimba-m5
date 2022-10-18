@@ -27,9 +27,13 @@ document.addEventListener("click", function (e) {
     handleTweetBtnClick();
   } else if (e.target.dataset.delete) {
     handleDeleteClick(e.target.dataset.delete);
-  } else if (e.target.dataset.inputReply) {
-    handleInputReplyClick(e.target.dataset.inputReply);
+  } else if (e.target.id) {
+    handleInputReplyClick(e.target.id);
   }
+  else if (e.target.dataset.replysubmit) {
+    handleReplySubmit(e.target.dataset.replysubmit);
+  }
+
 });
 
 // HandleClicks
@@ -98,9 +102,47 @@ function handleDeleteClick(deleteID) {
   render();
 }
 
-function handleInputReplyClick(inputReplyID) {
-  console.log("reply");
+
+function handleInputReplyClick(inputreplyID) {
+ 
+
+  // console.log(inputreplyID)
 }
+
+
+function handleReplySubmit(replySubmit) {
+
+  let replyText = document.getElementById(`inputReply-ID-${replySubmit}`)
+
+  console.log(replyText.value)
+  console.log(replySubmit)
+
+  const addReply =  currenttweetsData.filter(function(replydata) {
+    return replydata.uuid === replySubmit
+    
+  })
+  addReply[0].replies.push( {
+    handle: `@TommyA.K.A.Spiderman`,
+    profilePic: `images/spiderman.jpg`,
+    tweetText: `${replyText.value}`,
+})
+localStorage.setItem("tweeted", JSON.stringify(currenttweetsData));
+  render()
+  console.log(currenttweetsData)
+
+  // if(replyText.value) {
+  //   console.log(addReply)
+  //   console.log(addReply[0].replies)
+    
+  // }
+
+
+ 
+};
+
+   
+
+
 
 // getFeedHtml
 function getFeedHtml() {
@@ -121,17 +163,7 @@ function getFeedHtml() {
       retweetIconClass = "retweeted";
     }
 
-    let repliesHtml = `
-                        <div class="tweet-reply"> 
-                        <img src="images/spiderman.jpg" class="profile-pic tweet-inner"  >
-
-                            <textarea style="overflow:hidden" id="inputReply" name="inputReply" data-inputReply="${tweet.uuid}" >
-
-                            </textarea>
-                      
-                        </div>
-                       
-                         `;
+    let repliesHtml = ``;
 
     if (tweet.replies.length > 0) {
       tweet.replies.forEach(function (reply) {
@@ -152,7 +184,7 @@ function getFeedHtml() {
       });
     }
 
-    feedHtml += `
+    feedHtml += `                   
                     <div class="tweet">
                         <div class="tweet-inner">
                             <img src="${tweet.profilePic}" class="profile-pic">
@@ -188,6 +220,15 @@ function getFeedHtml() {
                             </div>            
                         </div>
                         <div class="hidden" id="replies-${tweet.uuid}">
+                          <div class="tweet-reply"> 
+                            <img src="images/spiderman.jpg" class="profile-pic tweet-inner"  >
+      
+                              <textarea style="overflow:hidden" id="inputReply-ID-${tweet.uuid}" name="inputReply" data-inputreply="${tweet.uuid}" >
+    
+                              </textarea>   
+                             <button  data-replysubmit="${tweet.uuid}">reply</button>             
+                          </div>
+
                             ${repliesHtml}
                         </div>   
                     </div>
