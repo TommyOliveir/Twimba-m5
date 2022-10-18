@@ -114,7 +114,7 @@ button {
 }
 
 .tweetReplyInput img {
- margin-top: 2em;
+    margin-top: 2em;
 }
 
 .handle {
@@ -142,4 +142,31 @@ button {
 .hidden {
     display: none;
 }
+
+.tweet-reply textarea {
+    border: 1px solid #e0dfe0;
+    outline: none;
+    margin-left: .5em;
+    font-size: 1em;
+    border-radius: 5px;
+}
+
+.tweet-reply-flex {
+    display: flex;
+    align-items: flex-start;
+
+}
+
+
+.tweet-reply button {
+   
+    width: 100%;
+}
+
+.reply-btn:active {
+    transform: scale(1.1);
+}
+/* .reply-btn {
+    transition: all .5s ease;
+} */
 

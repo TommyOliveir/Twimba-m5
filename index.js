@@ -130,6 +130,9 @@ localStorage.setItem("tweeted", JSON.stringify(currenttweetsData));
   render()
   console.log(currenttweetsData)
 
+
+  document.getElementById(`replies-${replySubmit}`).classList.remove("hidden");
+
   // if(replyText.value) {
   //   console.log(addReply)
   //   console.log(addReply[0].replies)
@@ -221,12 +224,15 @@ function getFeedHtml() {
                         </div>
                         <div class="hidden" id="replies-${tweet.uuid}">
                           <div class="tweet-reply"> 
-                            <img src="images/spiderman.jpg" class="profile-pic tweet-inner"  >
-      
-                              <textarea style="overflow:hidden" id="inputReply-ID-${tweet.uuid}" name="inputReply" data-inputreply="${tweet.uuid}" >
-    
-                              </textarea>   
-                             <button  data-replysubmit="${tweet.uuid}">reply</button>             
+                            <div class="tweet-reply-flex" >
+                              <img src="images/spiderman.jpg" class="profile-pic tweet-inner"  >
+        
+                              <textarea placeholder="Add Comment" style="overflow:hidden" id="inputReply-ID-${tweet.uuid}" name="inputReply" data-inputreply="${tweet.uuid}"></textarea> 
+                            </div>
+                              <div>  
+                                <button class="reply-btn" data-replysubmit="${tweet.uuid}">reply</button>  
+                              </div>
+                                    
                           </div>
 
                             ${repliesHtml}
