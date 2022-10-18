@@ -166,7 +166,18 @@ button {
 .reply-btn {
    transition: all .2s ease;
    font-weight: 300;
-   width: 50%;
+   width: 75%;
+   border-radius: 5px;
+   opacity: .5;
    
 }
 
+.reply-btn:hover{
+    opacity: 1;
+   
+}
+
+.btn-flex {
+display: flex;
+justify-content: end;
+}

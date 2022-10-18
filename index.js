@@ -235,7 +235,7 @@ function getFeedHtml() {
         
                               <textarea placeholder="Add Comment" style="overflow:hidden" id="inputReply-ID-${tweet.uuid}" name="inputReply" data-inputreply="${tweet.uuid}"></textarea> 
                             </div>
-                            <div>  
+                            <div class="btn-flex">  
                               <button class="reply-btn" data-replysubmit="${tweet.uuid}">reply<i class="fa-regular fa-paper-plane"></i> </button>  
                             </div>
                           
