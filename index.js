@@ -104,7 +104,7 @@ function handleDeleteClick(deleteID) {
 
 
 function handleInputReplyClick(inputreplyID) {
- 
+
 
   // console.log(inputreplyID)
 }
@@ -117,33 +117,38 @@ function handleReplySubmit(replySubmit) {
   console.log(replyText.value)
   console.log(replySubmit)
 
-  const addReply =  currenttweetsData.filter(function(replydata) {
+  const addReply = currenttweetsData.filter(function (replydata) {
     return replydata.uuid === replySubmit
-    
+
   })
-  addReply[0].replies.push( {
-    handle: `@TommyA.K.A.Spiderman`,
-    profilePic: `images/spiderman.jpg`,
-    tweetText: `${replyText.value}`,
-})
-localStorage.setItem("tweeted", JSON.stringify(currenttweetsData));
-  render()
-  console.log(currenttweetsData)
+
+  if (replyText.value) {
+    addReply[0].replies.push({
+      handle: `@TommyA.K.A.Spiderman`,
+      profilePic: `images/spiderman.jpg`,
+      tweetText: `${replyText.value}`,
+    })
+    localStorage.setItem("tweeted", JSON.stringify(currenttweetsData));
+    render()
+    console.log(currenttweetsData)
 
 
-  document.getElementById(`replies-${replySubmit}`).classList.remove("hidden");
+    document.getElementById(`replies-${replySubmit}`).classList.remove("hidden");
+  }
+
+
 
   // if(replyText.value) {
   //   console.log(addReply)
   //   console.log(addReply[0].replies)
-    
+
   // }
 
 
- 
+
 };
 
-   
+
 
 
 
@@ -229,9 +234,9 @@ function getFeedHtml() {
         
                               <textarea placeholder="Add Comment" style="overflow:hidden" id="inputReply-ID-${tweet.uuid}" name="inputReply" data-inputreply="${tweet.uuid}"></textarea> 
                             </div>
-                              <div>  
-                                <button class="reply-btn" data-replysubmit="${tweet.uuid}">reply</button>  
-                              </div>
+                            <div>  
+                              <button class="reply-btn" data-replysubmit="${tweet.uuid}">reply</button>  
+                            </div>
                                     
                           </div>
 

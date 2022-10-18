@@ -166,7 +166,7 @@ button {
 .reply-btn:active {
     transform: scale(1.1);
 }
-/* .reply-btn {
-    transition: all .5s ease;
-} */
+.reply-btn {
+   transition: all .2s ease;
+}
 
