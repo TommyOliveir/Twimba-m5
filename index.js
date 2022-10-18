@@ -233,10 +233,10 @@ function getFeedHtml() {
                             <div class="tweet-reply-flex" >
                               <img src="images/spiderman.jpg" class="profile-pic tweet-inner"  >
         
-                              <textarea placeholder="Add Comment" style="overflow:hidden" id="inputReply-ID-${tweet.uuid}" name="inputReply" data-inputreply="${tweet.uuid}"></textarea> 
+                              <textarea placeholder="Add Reply" style="overflow:hidden" id="inputReply-ID-${tweet.uuid}" name="inputReply" data-inputreply="${tweet.uuid}"></textarea> 
                             </div>
                             <div class="btn-flex">  
-                              <button class="reply-btn" data-replysubmit="${tweet.uuid}">reply<i class="fa-regular fa-paper-plane"></i> </button>  
+                              <button class="reply-btn" data-replysubmit="${tweet.uuid}">Reply<i class="fa-regular fa-paper-plane"></i> </button>  
                             </div>
                           
                           </div>
